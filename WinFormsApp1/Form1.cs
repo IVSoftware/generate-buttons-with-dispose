@@ -16,7 +16,7 @@ namespace WinFormsApp1
                     {
                         case Keys.Return:
                             e.Handled =
-                                e.SuppressKeyPress =                                // Avoid unwanted beeps.
+                                e.SuppressKeyPress =    // Avoid unwanted beeps.
                                 true;
                             foreach (
                                 var genTextBox in
@@ -24,7 +24,7 @@ namespace WinFormsApp1
                                 .Where(_ => _.Name.IndexOf("radioButtonGen") == 0)  // Only matching name
                                 .ToArray())                                         // Insulate from collection changes
                             {
-                                genTextBox.Dispose();
+                                genTextBox.Dispose();   // Properly dispose of buttons handles
                             }
                             var count = int.Parse(textBox1.Text);
                             for (var index = 0; index < count; index++)
