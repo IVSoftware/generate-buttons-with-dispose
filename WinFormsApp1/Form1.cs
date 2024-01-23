@@ -5,48 +5,41 @@ namespace WinFormsApp1
         public Form1()
         {
             InitializeComponent();
-            // Constrain to numeric only input.
-            textBox1.KeyPress += (sender, e) =>
+            numericUpDown.KeyDown += (sender, e) =>
             {
-                e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
+                if(e.KeyData == Keys.Return)
+                {
+                    e.SuppressKeyPress = true;  // Avoid unwanted alert sounds
+                }
             };
-            textBox1.KeyDown += (sender, e) =>
+            numericUpDown.ValueChanged += (sender, e) =>
             {
-                if (textBox1.Text.Length > 0) switch (e.KeyData)
+                foreach (
+                    var genTextBox in
+                    Controls.OfType<RadioButton>()                      // Only Radio Buttons
+                    .Where(_ => _.Name.IndexOf("radioButtonGen") == 0)  // Only matching name
+                    .ToArray())                                         // Insulate from collection changes
+                {
+                    genTextBox.Dispose();   // Properly dispose of buttons handles
+                }
+                var count = Convert.ToInt32(numericUpDown.Value);
+                for (var index = 0; index < count; index++)
+                {
+                    var row = index / 4;
+                    var column = index % 4;
+                    var radioButtonGen = new RadioButton
                     {
-                        case Keys.Return:
-                            e.Handled =
-                                e.SuppressKeyPress =    // Avoid unwanted beeps.
-                                true;
-                            foreach (
-                                var genTextBox in
-                                Controls.OfType<RadioButton>()                      // Only Radio Buttons
-                                .Where(_ => _.Name.IndexOf("radioButtonGen") == 0)  // Only matching name
-                                .ToArray())                                         // Insulate from collection changes
-                            {
-                                genTextBox.Dispose();   // Properly dispose of buttons handles
-                            }
-                            var count = int.Parse(textBox1.Text);
-                            for (var index = 0; index < count; index++)
-                            {
-                                var row = index / 4;
-                                var column = index % 4;
-                                var radioButtonGen = new RadioButton
-                                {
-                                    Name = $"radioButtonGen{index + 1}",
-                                    Text = $"RadioButton{index + 1}",
-                                    Location = new Point
-                                    {
-                                        X = textBox1.Left + (column * (MARGIN + WIDTH)),
-                                        Y = textBox1.Bottom + ((row + 1) * MARGIN) + (row * HEIGHT),
-                                    },
-                                    Size = new Size(WIDTH, HEIGHT)
-                                };
-                                Controls.Add(radioButtonGen);
-                            }
-                            textBox1.BeginInvoke(() => textBox1.SelectAll());
-                            break;
-                    }
+                        Name = $"radioButtonGen{index + 1}",
+                        Text = $"RadioButton{index + 1}",
+                        Location = new Point
+                        {
+                            X = numericUpDown.Left + (column * (MARGIN + WIDTH)),
+                            Y = numericUpDown.Bottom + ((row + 1) * MARGIN) + (row * HEIGHT),
+                        },
+                        Size = new Size(WIDTH, HEIGHT)
+                    };
+                    Controls.Add(radioButtonGen);
+                }
             };
         }
         const int

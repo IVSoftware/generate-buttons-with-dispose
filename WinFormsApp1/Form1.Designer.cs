@@ -28,31 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox1 = new TextBox();
+            numericUpDown = new NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown).BeginInit();
             SuspendLayout();
             // 
-            // textBox1
+            // numericUpDown
             // 
-            textBox1.Font = new Font("Segoe UI", 12F);
-            textBox1.Location = new Point(44, 46);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(150, 39);
-            textBox1.TabIndex = 0;
+            numericUpDown.Font = new Font("Segoe UI", 14F);
+            numericUpDown.Location = new Point(41, 46);
+            numericUpDown.Name = "numericUpDown";
+            numericUpDown.Size = new Size(98, 45);
+            numericUpDown.TabIndex = 1;
+            numericUpDown.TextAlign = HorizontalAlignment.Center;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(textBox1);
+            Controls.Add(numericUpDown);
             Name = "Form1";
             Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)numericUpDown).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
-
-        private TextBox textBox1;
+        private NumericUpDown numericUpDown;
     }
 }
